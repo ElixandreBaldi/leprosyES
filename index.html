@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Apoio para Diagnóstico da Hanseniase</title>
+
+    <link rel="stylesheet" type="text/css" href="libs/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="libs/fontawesome/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="libs/vue/bootstrap-vue.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+<div id="lepra">    
+    <componente-formulario></componente-formulario>
+</div>
+
+<script type="text/javascript" src="libs/vue/vue.js"></script>
+<script type="text/javascript" src="libs/tether/tether.min.js"></script>
+<script type="text/javascript" src="libs/vue/bootstrap-vue.js"></script>
+
+<script type="text/javascript" src="components/componenteFormulario.js"></script>
+
+<script type="text/javascript" src="js/Pergunta.js"></script>
+<script type="text/javascript" src="js/Formulario.js"></script>
+
+<script type="text/javascript">
+    window.onload = function () {
+        vue = new Vue({
+        el: '#lepra',
+        // opções
+        })
+
+        Vue.component('componente-formulario', {
+        // opções
+        })
+        
+        form = new Formulario();
+    };
+
+</script>
+</body>
+</html>

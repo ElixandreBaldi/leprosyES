@@ -1,0 +1,9 @@
+html, body {   
+}
+.iniciar {
+    font-size: 72px;
+    position: absolute;    
+    width: 30%;
+    left: 35%;
+    top: 100px;    
+}
