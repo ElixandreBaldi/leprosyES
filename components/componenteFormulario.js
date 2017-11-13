@@ -2,8 +2,8 @@
 Vue.component('componenteFormulario', {
 
     template: `        
-            <div class="col-md-10 offset-md-2">
-                <div class="inicial" v-show="exameInicial">
+            <div class="col-md-12">
+                <div class="inicial col-md-10 offset-md-2" v-show="exameInicial">
                     <div class="row">
                         <div class="form-group col-md-5">
                             <label class="label-control">
@@ -114,7 +114,7 @@ Vue.component('componenteFormulario', {
                     </b-modal>
                 </div>
 
-                <div class="exameMonofilamento" v-show="exameMonofilamento">                   
+                <div class="exameMonofilamento col-md-10 offset-md-2" v-show="exameMonofilamento">                   
                     <legend>Exame Monofilamentos de Semmes-Weinstein</legend>
                     <div class="col-md-12 row">
                         <div class="col-md-5">
@@ -175,7 +175,7 @@ Vue.component('componenteFormulario', {
                                     <td>
                                         {{ codigoM.interpretacao }}
                                     </td>
-                                    <td>
+                                    <td style="text-align: center;">
                                         <img :src="codigoM.url" width="30px"> <br>
                                         {{ codigoM.codigo }}
                                     </td>
@@ -185,7 +185,7 @@ Vue.component('componenteFormulario', {
                     </div>                
                 </div>
 
-                <div class="exameTatilSimples" v-show="exameTatilSimples">                   
+                <div class="exameTatilSimples col-md-10 offset-md-2" v-show="exameTatilSimples">                   
                     <legend>Exame Tátil Simples</legend>
                     <div class="col-md-12 row">
                         <div class="col-md-5">
@@ -223,7 +223,7 @@ Vue.component('componenteFormulario', {
                     </div>                
                 </div>
 
-                <div class="exameTemperatura" v-show="exameTemperatura">                                                             
+                <div class="exameTemperatura col-md-10 offset-md-2" v-show="exameTemperatura">                                                             
                     <legend>Exame de Temperatura</legend>
                     <div class="col-md-12 row">
                         <div class="col-md-5">
@@ -272,11 +272,11 @@ Vue.component('componenteFormulario', {
                     </div>                                    
                 </div>
                 <div class="resultados" v-show="gerarResultados">
-                    <div class="col-md-10">
+                    <div class="col-md-10 offset-md-1">
                         <br>
                         <h5> Resultados </h5>
                         <legend> {{nome}}, {{idade}} - {{sexo}} </legend>
-                        <table class="table">
+                        <table class="table" style="text-align: center;">
                             <thead>
                                 <tr>
                                     <th>
@@ -337,11 +337,124 @@ Vue.component('componenteFormulario', {
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-10 offset-md-1">
                         <button class="btn btn-info btn-block" @click="irInicial">Voltar</button>
                     </div>  
+                    <div class="col-md-12 row">
+                        <br><br>
+                        <div class="col-md-4">
+                            <legend>Pesos para cálculos do exame de temperatura:</legend>                            
+                            <table class="table" style="text-align: center;">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Classificações Possíveis
+                                        </th>
+                                        <th>
+                                            Pesos
+                                        </th>                                    
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>
+                                            Igual / Mais Quente / Mais Gelado
+                                        </th>
+                                        <td>
+                                            0
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <th>
+                                            Menos Gelado / Menos Quente
+                                        </th>
+                                        <td>
+                                            1
+                                        </td>
+                                    </tr>                     
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                                <legend>Pesos para cálculos do exame Tátil:</legend><br>                                
+                            <table class="table" style="text-align: center;">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Classificações Possíveis
+                                        </th>
+                                        <th>
+                                            Pesos
+                                        </th>                                    
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>
+                                            Sensibilidade Normal / Alta
+                                        </th>
+                                        <td>
+                                            0
+                                        </td>
+                                    </tr>                     
+                                    <tr>
+                                        <th>
+                                            Média Sensibilidade
+                                        </th>
+                                        <td>
+                                            1
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <th>
+                                            Baixa Sensibilidade
+                                        </th>
+                                        <td>
+                                            2
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <th>
+                                            Sensibilidade Nula
+                                        </th>
+                                        <td>
+                                            3
+                                        </td>
+                                    </tr> 
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                                <legend>Pesos para cálculos do exame Monofilamento:</legend>
+                            <table class="table" style="text-align: center;">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Classificações Possíveis
+                                        </th>
+                                        <th>
+                                            Pesos
+                                        </th>                                    
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="">
+                                        <th>
+                                            
+                                        </th>
+                                        <td>
+
+                                        </td>
+                                    </tr>                     
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div> 
             </div>    
+            this.codigoTatil = ['Sem sensibilidade', 'Baixo Sensibilidade', 'Media Sensibilidade', 'Sensibilidade Normal', 'Sensibilidade Alta'];
+            this.codigoTemperaturaQ = ['Mais Quente', 'Menos Quente', 'Igual'];
+            this.codigoTemperaturaF = ['Mais Gelado', 'Menos Gelado', 'Igual'];
               
         
         `,
