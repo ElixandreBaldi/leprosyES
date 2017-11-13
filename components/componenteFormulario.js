@@ -340,8 +340,7 @@ Vue.component('componenteFormulario', {
                     <div class="col-md-10 offset-md-1">
                         <button class="btn btn-info btn-block" @click="irInicial">Voltar</button>
                     </div>  
-                    <div class="col-md-12 row">
-                        <br><br>
+                    <div class="col-md-12 row" style="margin-top: 50px;">
                         <div class="col-md-4">
                             <legend>Pesos para cálculos do exame de temperatura:</legend>                            
                             <table class="table" style="text-align: center;">
@@ -438,12 +437,12 @@ Vue.component('componenteFormulario', {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="">
+                                    <tr v-for="cod in codigoMapeamento">
                                         <th>
-                                            
+                                            <img :src="cod.url" width="30px"> {{ cod.codigo }}
                                         </th>
                                         <td>
-
+                                            {{ cod.pesoSoma }}
                                         </td>
                                     </tr>                     
                                 </tbody>
@@ -689,43 +688,50 @@ Vue.component('componenteFormulario', {
                 peso: '0,05g',
                 interpretacao: 'Sensibilidade "Normal" para mão e pé.',
                 codigo: 'Bolinha Verde',
-                url: 'icons/bolinhaVerde.png'
+                url: 'icons/bolinhaVerde.png',
+                pesoSoma: 0
             },
             {
                 peso: '0,2g',
                 interpretacao: 'Sensibilidade diminuída na mão, com dificuldade quanto à discriminação fina. (dentro do "normal" para o pé).',
                 codigo: 'Bolinha Azul',
-                url: 'icons/bolinhaAzul.png'
+                url: 'icons/bolinhaAzul.png',
+                pesoSoma: 1
             },
             {
                 peso: '2,0g',
                 interpretacao: 'Sensibilidade protetora para a mão diminuída, permanecendo o suficiente para prevenir lesões. Dificuldades com a discriminação de forma e temperatura.',
                 codigo: 'Bolinha Roxa',
-                url: 'icons/bolinhaRoxa.png'
+                url: 'icons/bolinhaRoxa.png',
+                pesoSoma: 2
             },
             {
                 peso: '4,0g',
                 interpretacao: 'Perda de sensação protetora para a mão, e as vezes, para o pé. Vulnerável a lesões. Perda de discriminação quente/frio.',
                 codigo: 'Bolinha Vermelha',
-                url: 'icons/bolinhaVermelha.png'
+                url: 'icons/bolinhaVermelha.png',
+                pesoSoma: 3
             },
             {
                 peso: '10,0g',
                 interpretacao: 'Perda de sensação protetora para o pé ainda podendo sentir pressão profunda e dor.',
                 codigo: 'Círculo Vermelho com "X"',
-                url: 'icons/bolinhaCirculoVermelhoX.png'
+                url: 'icons/bolinhaCirculoVermelhoX.png',
+                pesoSoma: 4
             },
             {
                 peso: '300g',
                 interpretacao: 'Sensibilidade à pressão profunda podendo ainda sentir dor.',
                 codigo: 'Círculo Vermelho',
-                url: 'icons/bolinhaCirculoVermelho.png'
+                url: 'icons/bolinhaCirculoVermelho.png',
+                pesoSoma: 5
             },
             {
                 peso: 'nenhuma',
                 interpretacao: 'Perda de sensibilidade à pressão profunda, normalmente não podendo sentir dor.',
                 codigo: 'Bolinha Preta',
-                url: 'icons/bolinhaPreta.png'
+                url: 'icons/bolinhaPreta.png',
+                pesoSoma: 6
             },
         ];
         this.codigoTatil = ['Sem sensibilidade', 'Baixo Sensibilidade', 'Media Sensibilidade', 'Sensibilidade Normal', 'Sensibilidade Alta'];
