@@ -9,13 +9,13 @@ Vue.component('componenteFormulario', {
                             <label class="label-control">
                                 Nome do Paciente:
                             </label>                
-                            <input type="text" class="form-control">                
+                            <input type="text" class="form-control" @keyup="tratarNome">                
                         </div>
                         <div class="form-group col-md-5">
                             <label class="label-control">
                                 Idade do Paciente:
                             </label>
-                            <input type="text" class="form-control">                
+                            <input type="number" class="form-control" @keyup="tratarIdade">                
                         </div>
                     </div>
                     
@@ -27,13 +27,13 @@ Vue.component('componenteFormulario', {
                             <div class="row">
                                 <div class="input-group col-md-6">
                                     <span class="input-group-addon">
-                                        <input type="radio" name="sexo" v-on="tratarSexo()">                            
+                                        <input type="radio" name="sexo" v-on:click="tratarSexo('Masculino')">                            
                                     </span>
                                     <input type="text" class="form-control" value="Masculino" readonly>
                                 </div>                                                
                                 <div class="input-group col-md-6">
                                     <span class="input-group-addon">
-                                        <input type="radio" name="sexo" v-on="tratarSexo()">                            
+                                        <input type="radio" name="sexo" v-on:click="tratarSexo('Feminino')">                            
                                     </span>
                                     <input type="text" class="form-control" value="Feminino" readonly>
                                 </div>  
@@ -63,12 +63,12 @@ Vue.component('componenteFormulario', {
                                         <input type="text" class="form-control" value="Não" readonly>
                                     </div>                                          
                                 </div>   
-                                <div class="form-group offset-md-4" v-show="flagSegmentos">
+                                <div class="col-md-12" v-show="flagSegmentos">
                                 <br>
-                                    <b-button class="btn btn-info" @click="informarNovoSegmento()">
-                                        Inserir/Excluir Segmentos
+                                    <b-button class="btn btn-info btn-block" @click="informarNovoSegmento()">
+                                        Inserir/Excluir/Visualizar Segmentos
                                     </b-button>
-                                </div>      
+                                </div>                                  
                                 <div class="col-md-7 offset-md-3" v-show="existeManchas()">
                                     <br/>
                                     <button class="btn" style="background-color:white;" v-on:click="irExameTatilSimples">
@@ -138,14 +138,14 @@ Vue.component('componenteFormulario', {
                             </div>
                             <button class="btn btn-info" @click="incrementarContManchas"> Próxima Mancha </button>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-5" v-for="segmento in segmentos" v-show="contManchas == segmento.id">
                             <label class="label-control">
                                 Identifique o resultado do mapeamento:
                             </label>   
                             <select class="form-control" @change="atualizarMonofilamento">
                                 <option data-foo="escolhaOutro" active> Escolha </option>
-                                <option v-for="codigoM in codigoMapeamento" :data-fooo="codigoM.url" :data-foo="codigoM.codigo" :data-fo="contManchas">
-                                    <img :src="codigoM.url"/> {{ codigoM.codigo }}
+                                <option :style='imgBack(codigoM.url)' v-for="codigoM in codigoMapeamento" :data-fooo="codigoM.url" :data-foo="codigoM.codigo" :data-fo="contManchas">
+                                    {{ codigoM.codigo }}
                                 </option>
                             </select>
                         </div>                                                                    
@@ -176,7 +176,7 @@ Vue.component('componenteFormulario', {
                                         {{ codigoM.interpretacao }}
                                     </td>
                                     <td>
-                                        <img :src="codigoM.url">
+                                        <img :src="codigoM.url" width="30px"> <br>
                                         {{ codigoM.codigo }}
                                     </td>
                                 </tr>                            
@@ -209,7 +209,7 @@ Vue.component('componenteFormulario', {
                             </div>
                             <button class="btn btn-info" @click="incrementarContManchas"> Próxima Mancha </button>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-5" v-for="segmento in segmentos" v-show="contManchas == segmento.id">
                             <label class="label-control">
                                 Identifique o resultado do exame tátil:
                             </label>   
@@ -247,7 +247,7 @@ Vue.component('componenteFormulario', {
                             </div>
                             <button class="btn btn-info" @click="incrementarContManchas"> Próxima Mancha </button>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-5" v-for="segmento in segmentos" v-show="contManchas == segmento.id">
                             <br>
                             <label class="label-control">
                                 Identifique o resultado do exame de Temperatura Quente:
@@ -275,6 +275,7 @@ Vue.component('componenteFormulario', {
                     <div class="col-md-10">
                         <br>
                         <h5> Resultados </h5>
+                        <legend> {{nome}}, {{idade}} - {{sexo}} </legend>
                         <table class="table">
                             <thead>
                                 <tr>
@@ -319,7 +320,7 @@ Vue.component('componenteFormulario', {
                                         {{ segmento.classificacaoTatil}}
                                     </td>                              
                                     <td>                                        
-                                        {{ segmento.classificacaoMonofilamentoUrl }}
+                                        <img :src="segmento.classificacaoMonofilamentoUrl" width="30px">
                                     </td>
                                     <td>
                                         {{ somaPesosMancha(segmento.classificacaoTemperaturaF, segmento.classificacaoTemperaturaQ, segmento.classificacaoTatil, segmento.classificacaoMonofilamento, segmento.id) }}
@@ -363,10 +364,16 @@ Vue.component('componenteFormulario', {
             codigoTatil: this.codigoTatil,
             codigoTemperatura: this.codigoTemperatura,
             codigoTemperaturaQ: this.codigoTemperaturaQ,
-            codigoTemperaturaF: this.codigoTemperaturaF
+            codigoTemperaturaF: this.codigoTemperaturaF,
+            nome: this.nome,
+            sexo: this.sexo,
+            idade: this.idade
         };
     },
     methods: {
+        imgBack(url) {
+            return 'background-image:url('+url+');';
+        },
         gerarValorLimiar () {
             let qtdManchas = this.segmentos.length;
             let soma = 0;
@@ -424,8 +431,14 @@ Vue.component('componenteFormulario', {
                 return true;
            return false;
         },
-        tratarSexo() {
-
+        tratarSexo(sexo) {
+            this.sexo = sexo;
+        },
+        tratarNome(e) {
+            this.nome = e.target.value;
+        },
+        tratarIdade(e) {
+            this.idade = e.target.value;
         },
         atualizarExameTemperaturaQuente(e) {
             if(e.target.options.selectedIndex > -1) {                
@@ -641,5 +654,8 @@ Vue.component('componenteFormulario', {
                 somador: 0
             }
         ];
+        this.nome = '..';
+        this.sexo = '..';
+        this.idade = '..';
     }
 });
