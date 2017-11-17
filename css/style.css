@@ -7,3 +7,9 @@ html, body {
     left: 35%;
     top: 100px;    
 }
+
+.container-exames {
+    border-radius: 5px;
+    border: solid 1px silver;
+    padding: 15px;
+}
