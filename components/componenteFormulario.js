@@ -209,7 +209,7 @@ Vue.component('componenteFormulario', {
                         <div class="col-md-10 offset-md-1">
                             <p style="text-align:justify;">                            
                                 O sistema desenvolvido cumpre o papel estabelecido pela equipe em conjunto com o médico especialista Dr. Hirofumi Uyeda e a professora de Inteligência Artificial Dra. Claudia Brandelero Rizzi. Um ponto levantado é que por se tratar de vários médicos que utilizaram o sistema é necessário que haja um treinamento de como utilizar o sistema, e como realizar os exames necessários para a detecção da doença. Porém após feito este treinamento inicial, acredita - se que o sistema pode auxiliar no controle da doença hanseníase.
-                                Para mais informações acesse: <a href="https://github.com/ElixandreBaldi/leprosyES/readme"> https://github.com/ElixandreBaldi/leprosyES/readme </a>
+                                Para mais informações acesse: <a href="https://github.com/ElixandreBaldi/leprosyES/blob/canvas/readme.pdf"> https://github.com/ElixandreBaldi/leprosyES/blob/canvas/readme.pdf </a>
                             </p>
                                 <b-btn @click="fecharSobre" class="btn btn-default">Ok</b-btn>
                             </h6>
