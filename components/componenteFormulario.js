@@ -44,47 +44,7 @@ Vue.component('componenteFormulario', {
                         </div> 
                     </div>                    
                     <div v-show="flagExame">
-                        <div class="row container-exames"  v-for="segmento in segmentos" v-show="contManchas == segmento.id">                        
-                            <legend>Mancha {{ segmento.id + 1 }}</legend>
-                            
-                            <select class="form-control" @change="atualizarLocalSegmento">
-                                <option v-for="mancha in partesCorpo" :data-foo="mancha.id" :data-fo="segmento.id">{{ mancha.value }}</option>
-                            </select>
-                            <legend>Selecione o resultado dos respectivos exames:</legend>                        
-                            <div class="col-md-4">
-                                <label class="label-control">Resultado do Exame Tátil</label>
-                                <select class="form-control" @change="atualizarExameTatil">
-                                    <option v-for="cod in codigoMapeamento" :data-foo="cod.id" :data-fo="segmento.id">{{ cod.codigo }}</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="label-control">Resultado do Exame de Temperatura</label> 
-                                <select class="form-control" @change="atualizarExameTemperatura">
-                                    <option v-for="cod in codigoTemperatura" :data-foo="cod.id" :data-fo="segmento.id">{{ cod.value }}</option>
-                                </select>                                         
-                            </div>                        
-                            <div class="col-md-4">
-                                <label class="label-control">Resultado do Exame de Dor</label>
-                                <select class="form-control" @change="atualizarExameDor">
-                                    <option v-for="cod in codigoDor" :data-foo="cod.id" :data-fo="segmento.id">{{ cod.value }}</option>
-                                </select>
-                            </div>  
-                            <div class="col-md-4" style="margin-top: 10px;" v-if="segmento.id > 0">
-                                <button class="btn btn-warning btn-block" @click="segmentoAnterior">Mancha Anterior</button>
-                            </div>  
-                            <div class="col-md-4" style="margin-top: 10px;" v-else-if="segmento.id >= 0">
-                                
-                            </div>  
-                            <div class="col-md-4" style="margin-top: 10px;">
-                                <button class="btn btn-success btn-block" @click="finalizarExame">Finalizar Exame</button>
-                            </div>                            
-                            <div class="col-md-4" style="margin-top: 10px;" v-if="segmento.id < segmentos.length - 1">
-                                <button class="btn btn-info btn-block" @click="proximoSegmento">Próxima Mancha</button>
-                            </div>  
-                            <div class="col-md-4" style="margin-top: 10px;" v-else-if="segmento.id < segmentos.length">
-                                <button class="btn btn-info btn-block" @click="novoSegmento">Nova Mancha</button>
-                            </div>
-                        </div>
+                        <canvas id="corpo" width="1050" height="850" @click="clickCanvas"></canvas>
                     </div>
                     <div v-show="!flagExame">
                         <div class="col-md-12">
@@ -150,11 +110,21 @@ Vue.component('componenteFormulario', {
                             </table>
                         </div>
                     </div>
-                    <div v-if="!legenda">
-                        <button class="btn btn-info" style="margin-top:10px;" @click="inverterLegenda">Ver Legenda de Pesos</button>
+                    <div class="row">
+                        <div v-if="!legenda" class="col-md-4">
+                            <button class="btn btn-info btn-block" style="margin-top:10px;" @click="inverterLegenda">Ver Legenda de Pesos</button>
+                        </div>                
+                        <div v-else-if="legenda" class="col-md-4">
+                            <button class="btn btn-info btn-block" style="margin-top:10px;" @click="inverterLegenda">Esconder Legenda de Pesos</button>                        
+                        </div>
+                        <div class="col-md-4" v-show="flagExame">
+                            <button class="btn btn-success btn-block" style="margin-top:10px;" @click="finalizarExame">Finalizar Exame</button>                        
+                        </div>
+                        <div class="col-md-4" v-show="!flagExame">
+                            <button class="btn btn-primary btn-block" style="margin-top:10px;" @click="voltarExame">Voltar</button>                        
+                        </div>
                     </div>
-                    <div v-else-if="legenda">
-                        <button class="btn btn-info" style="margin-top:10px;" @click="inverterLegenda">Esconder Legenda de Pesos</button>                        
+                    <div v-show="legenda">                        
                         <div class="col-md-12 row" style="margin-top: 10px;">
                             <div class="col-md-4">
                                 <legend>Pesos para cálculos do exame de temperatura:</legend>                            
@@ -246,6 +216,38 @@ Vue.component('componenteFormulario', {
                         </div>
                     </div>
                 </b-modal>
+                <b-modal ref="exame" hide-footer size="lg" title="Exame Manchas">
+                    <div class="row container-exames"  v-for="segmento in segmentos" v-show="contManchas == segmento.id">                        
+                        <legend>Mancha {{ segmento.id + 1 }}</legend>
+                        
+                        <select class="form-control" @change="atualizarLocalSegmento">
+                            <option v-for="mancha in partesCorpo" :data-foo="mancha.id" :data-fo="segmento.id">{{ mancha.value }}</option>
+                        </select>
+                        <legend>Selecione o resultado dos respectivos exames:</legend>                        
+                        <div class="col-md-4">
+                            <label class="label-control">Resultado do Exame Tátil</label>
+                            <select class="form-control" @change="atualizarExameTatil">
+                                <option v-for="cod in codigoMapeamento" :data-foo="cod.id" :data-fo="segmento.id">{{ cod.codigo }}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="label-control">Resultado do Exame de Temperatura</label> 
+                            <select class="form-control" @change="atualizarExameTemperatura">
+                                <option v-for="cod in codigoTemperatura" :data-foo="cod.id" :data-fo="segmento.id">{{ cod.value }}</option>
+                            </select>                                         
+                        </div>                        
+                        <div class="col-md-4">
+                            <label class="label-control">Resultado do Exame de Dor</label>
+                            <select class="form-control" @change="atualizarExameDor">
+                                <option v-for="cod in codigoDor" :data-foo="cod.id" :data-fo="segmento.id">{{ cod.value }}</option>
+                            </select>
+                        </div>  
+                        
+                        <div class="col-md-4" style="margin-top: 10px;">                            
+                            <b-btn @click="fecharExame" class="btn btn-default">Ok</b-btn>                            
+                        </div>  
+                    </div>                
+                </b-modal>
             </div>    
         `,
     
@@ -283,6 +285,53 @@ Vue.component('componenteFormulario', {
         };
     },
     methods: {
+        getRelativeX (x) {            
+            return Math.round(x - 156);
+        },
+        getRelativeY (y,ctx) {
+            return Math.round(y - 223);
+        },
+        drawPoint(ctx) {
+            for(let i = 0; i < this.segmentos.length; i++) {
+                ctx.fillStyle = "#ff0000";
+                ctx.beginPath(); //Start path
+                ctx.arc(this.segmentos[i].x, this.segmentos[i].y, 3, 0, Math.PI * 2, true);
+                ctx.fill();
+            }
+        },
+        redraw(ctx) {                        
+            ctx.clearRect(0, 0, 1050, 850); //limpa
+            this.drawPoint(ctx);
+        },
+        existePonto(x, y) {
+
+            for(let i = 0; i < this.segmentos.length; i++) {
+                let xMin = this.segmentos[i].x - 10;
+                let xMax = this.segmentos[i].x + 10;
+                let yMin = this.segmentos[i].y - 10;
+                let yMax = this.segmentos[i].y + 10;
+                
+                if(x > xMin && x < xMax && y > yMin && y < yMax) {                    
+                    return i;
+
+                }
+            }
+            return null;
+        },
+        clickCanvas(e){
+            let ctx = document.getElementById('corpo').getContext("2d");   
+            let clickX = this.getRelativeX(e.clientX);
+            let clickY = this.getRelativeY(e.clientY);
+            let index = this.existePonto(clickX, clickY);            
+            if(index === null) {
+                this.novoSegmento(clickX, clickY);
+            } else {                
+                this.contManchas = index;
+                this.abrirExame();
+            }
+
+            this.redraw(ctx);
+        },        
         imgBack(url) {
             return 'background-image:url('+url+');';
         },
@@ -387,6 +436,7 @@ Vue.component('componenteFormulario', {
             return true;
         },
         finalizarExame() {   
+            console.log(this.segmentos);
             if(this.validarFim()){            
                 let maior = -4;
                 let index;
@@ -399,8 +449,11 @@ Vue.component('componenteFormulario', {
                     }                
                 }    
                 this.manchaSelecionada = index;
-                this.segmentos[this.manchaSelecionada].pesoSoma = maior;            
-                
+                console.log(this.manchaSelecionada);
+                console.log(this.segmentos[this.manchaSelecionada].pesoSoma);
+                this.segmentos[this.manchaSelecionada].pesoSoma = maior;                            
+
+
                 this.getLocal = this.partesCorpo[this.segmentos[this.manchaSelecionada].local].value;      
                 this.getUrl = this.codigoMapeamento[this.segmentos[this.manchaSelecionada].classificacaoMonofilamento].url;        
                 this.getTatil = this.codigoMapeamento[this.segmentos[this.manchaSelecionada].classificacaoMonofilamento].codigo;        
@@ -420,6 +473,9 @@ Vue.component('componenteFormulario', {
             } else {
                 alert('Favor preencher todos os campos de cada mancha');
             }
+        },
+        voltarExame() {   
+            this.flagExame = true;
         },
         irInicial() {            
             this.exameInicial = true;
@@ -462,6 +518,12 @@ Vue.component('componenteFormulario', {
             else
                 this.flagSegmentos = false;
         },
+        abrirExame() {
+            this.$refs.exame.show();
+        },
+        fecharExame() {
+            this.$refs.exame.hide();
+        },
         sobre() {
             this.$refs.myModalRef.show();
         },
@@ -489,21 +551,23 @@ Vue.component('componenteFormulario', {
 
             return true;
         },
-        novoSegmento() {
-            if(this.validarNovoSegmento()) {            
+        novoSegmento(newX = null, newY = null) {
+            //if(this.validarNovoSegmento()) {            
                 let novo = {
                     id: this.segmentos.length,
                     value: 'Mancha '+this.segmentos.length,
                     local: null,
                     classificacaoMonofilamento: null,                                
                     classificacaoTemperatura: null,
-                    classificacaoDor: null
+                    classificacaoDor: null,
+                    x: newX,
+                    y: newY
                 };
                 this.contManchas++;
                 this.segmentos.push(novo);
-            } else {
+            /*} else {
                 alert('* Favor preencher todos os dados da mancha. \n* Caso você já preencheu todos os campos, refaça o teste pois apresentam dados não coerentes.')
-            }
+            }*/
         },        
         excluirSegmento(id) {            
             if(this.segmentos.length > 1) {
@@ -717,16 +781,7 @@ Vue.component('componenteFormulario', {
             }
         ];   
 
-        this.segmentos = [
-            {
-                id: 0,
-                value: '',
-                local: null,
-                classificacaoMonofilamento: null,                                
-                classificacaoTemperatura: null,
-                classificacaoDor: null                
-            }
-        ];
+        this.segmentos = [];
         this.nome = '..';
         this.sexo = '..';
         this.idade = '..';

@@ -8,8 +8,11 @@ html, body {
     top: 100px;    
 }
 
-.container-exames {
-    border-radius: 5px;
-    border: solid 1px silver;
+.container-exames {    
     padding: 15px;
+}
+
+canvas{
+	background: url("../img/corpoHumano.jpg");
+	background-repeat: no-repeat;
 }
