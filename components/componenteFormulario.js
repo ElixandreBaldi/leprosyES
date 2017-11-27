@@ -2,8 +2,12 @@
 Vue.component('componenteFormulario', {
 
     template: `        
-            <div class="col-md-12">
+            <div class="col-md-12">                
                 <div class="inicial col-md-10 offset-md-1" v-show="exameInicial">                    
+                    <legend>
+                        <h1> Sistema Especialista de Apoio ao Diagnósico a Hanseníase <b-button class="btn btn-info" @click="sobre()"> Sobre </b-button></h1>
+
+                    </legend>
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label class="label-control">
@@ -230,6 +234,18 @@ Vue.component('componenteFormulario', {
                         </div>
                     </div>
                 </div>
+                <b-modal ref="myModalRef" hide-footer size="lg" title="Sistema Especialista de Apoio ao Diagnósico a Hanseníase">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1">
+                            <p style="text-align:justify;">                            
+                                O sistema desenvolvido cumpre o papel estabelecido pela equipe em conjunto com o médico especialista Dr. Hirofumi Uyeda e a professora de Inteligência Artificial Dra. Claudia Brandelero Rizzi. Um ponto levantado é que por se tratar de vários médicos que utilizaram o sistema é necessário que haja um treinamento de como utilizar o sistema, e como realizar os exames necessários para a detecção da doença. Porém após feito este treinamento inicial, acredita - se que o sistema pode auxiliar no controle da doença hanseníase.
+                                Para mais informações acesse: <a href="https://github.com/ElixandreBaldi/leprosyES/readme"> https://github.com/ElixandreBaldi/leprosyES/readme </a>
+                            </p>
+                                <b-btn @click="fecharSobre" class="btn btn-default">Ok</b-btn>
+                            </h6>
+                        </div>
+                    </div>
+                </b-modal>
             </div>    
         `,
     
@@ -446,10 +462,10 @@ Vue.component('componenteFormulario', {
             else
                 this.flagSegmentos = false;
         },
-        informarNovoSegmento() {
+        sobre() {
             this.$refs.myModalRef.show();
         },
-        salvarSegmento() {
+        fecharSobre() {
             this.hideModal();            
         },
         hideModal() {
